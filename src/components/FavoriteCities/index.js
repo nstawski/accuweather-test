@@ -11,7 +11,7 @@ class FavoriteCities extends Component {
             <div className="FavoriteCities">
                 <h1 className="FavoriteCities--header">{text.favoriteCities}</h1>
                 <div className="FavoriteCities--list">
-                    {this.props.cities.map((city, key) => (<City key={key} city={city} unit={"1"} />))}
+                    {this.props.cities.map((city, key) => (<City key={key} city={city} unit={"1"} deleteFn={this.props.handleDelete}/>))}
                 </div>
             </div>
         );

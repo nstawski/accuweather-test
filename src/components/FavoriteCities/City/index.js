@@ -26,6 +26,7 @@ class City extends Component {
             {this.state.city && Object.keys(this.state.city).indexOf('state') !== 'undefined' ? `, ${this.state.city.state}` : ""}
             {this.state.city && Object.keys(this.state.city).indexOf('icon') !== 'undefined' ? (
                 <img src={`https://developer.accuweather.com/sites/default/files/${this.state.city.icon.toString().length === 2 ? this.state.city.icon : "0" + this.state.city.icon}-s.png`}/>) : ""}
+            <div className="City--delete" onClick={() => this.props.handleDelete(this.state.city.key)}>X</div>
             </div>
         );
     }

@@ -23,6 +23,12 @@ const storage = {
         }
         localStorage.setItem(localStorageIdentifier, JSON.stringify(favoriteCities));
         return favoriteCities;
+    },
+    delFavoriteCity: (cityKey) => {
+        var favoriteCities = localStorage.getItem(localStorageIdentifier) ? JSON.parse(localStorage.getItem(localStorageIdentifier)) : [];
+        favoriteCities = favoriteCities.filter((city) => city !== cityKey);
+        localStorage.setItem(localStorageIdentifier, JSON.stringify(favoriteCities));
+        return favoriteCities;
     }
 };
 
@@ -36,6 +42,7 @@ class App extends Component {
         this.parseJson = this.parseJson.bind(this);
         this.getCityKeyOrFail = this.getCityKeyOrFail.bind(this);
         this.addFavoriteCity = this.addFavoriteCity.bind(this);
+        this.delFavoriteCity = this.delFavoriteCity.bind(this);
         this.getCityInfoOrFail = this.getCityInfoOrFail.bind(this);
         this.getWeatherForCities = this.getWeatherForCities.bind(this);
         this.retrieveCityByTheName = this.retrieveCityByTheName.bind(this);
@@ -102,6 +109,11 @@ class App extends Component {
         var favoriteCities = storage.addFavoriteCity(cityInfo);
     };
     
+    delFavoriteCity = (cityKey) => {
+        var favoriteCities = storage.delFavoriteCity(cityKey);
+        this.setState({ "favoriteCities": favoriteCities })
+    };
+    
     retrieveCityByTheName = (cityName) => fetch(urlGenerators.getCity(cityName))
         .then(this.parseResponseStatus)
         .then(this.parseJson)
@@ -140,6 +152,7 @@ class App extends Component {
                 />
                 <FavoriteCities
                     cities = { this.state.favoriteCities }
+                    handleDelete = { this.delFavoriteCity }
                 />
             </div>
         );
