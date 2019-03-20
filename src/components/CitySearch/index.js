@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import text from '../../text.json';
 
 class CitySearch extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class CitySearch extends Component {
                 <button 
                     className = "CitySearch-Submit"
                     onClick = { this.handleClick }>
-                    Search and add to favorites 
+                    {text.searchAndAdd}
                 </button>
             </div>
         );

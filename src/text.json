@@ -1,0 +1,7 @@
+{
+    "searchAndAdd": "Search and add to favorites",
+    "favoriteCities": "My favorite cities",
+    "couldNotFindTheCity": "Could not find the city",
+    "couldNotFetchCityData": "Could not fetch city data",
+    "couldNotFetchCityWeather": "Could not fetch city weather"
+}
