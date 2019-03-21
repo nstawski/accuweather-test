@@ -3,9 +3,9 @@ import 'whatwg-fetch';
 import CitySearch from './components/CitySearch';
 import FavoriteCities from './components/FavoriteCities';
 import text from './text.json';
-import './App.css';
+import './App.scss';
 
-const apikey = "cIgKO9NuJUj2JXirDRKHJ8jBAFxdAHDR";
+const apikey = "";
 const localStorageIdentifier = "accu-favoriteCities";
 
 const urlGenerators = {
@@ -26,7 +26,11 @@ const storage = {
     },
     delFavoriteCity: (cityKey) => {
         var favoriteCities = localStorage.getItem(localStorageIdentifier) ? JSON.parse(localStorage.getItem(localStorageIdentifier)) : [];
-        favoriteCities = favoriteCities.filter((city) => city !== cityKey);
+        for (var i = 0; i < favoriteCities.length; i++) {
+            if (favoriteCities[i] === cityKey) {
+                favoriteCities.splice(i, 1)
+            }
+        }
         localStorage.setItem(localStorageIdentifier, JSON.stringify(favoriteCities));
         return favoriteCities;
     }
@@ -107,11 +111,14 @@ class App extends Component {
     
     addFavoriteCity = (cityInfo) => {
         var favoriteCities = storage.addFavoriteCity(cityInfo);
+        
     };
     
     delFavoriteCity = (cityKey) => {
+        console.log('before', favoriteCities);
         var favoriteCities = storage.delFavoriteCity(cityKey);
-        this.setState({ "favoriteCities": favoriteCities })
+        console.log('deleted', favoriteCities);
+        this.getWeatherForCities();
     };
     
     retrieveCityByTheName = (cityName) => fetch(urlGenerators.getCity(cityName))
@@ -120,6 +127,9 @@ class App extends Component {
         .then(this.getCityKeyOrFail)
         .then(this.addFavoriteCity)
         .then(this.getWeatherForCities)
+        .catch(error => {
+            console.log(error);
+        })
     
     getWeatherForCities = () => {
         let favoriteCities = storage.getFavoriteCities();

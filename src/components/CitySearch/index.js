@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import text from '../../text.json';
+import './index.scss';
 
 class CitySearch extends Component {
     constructor(props) {
@@ -17,7 +18,6 @@ class CitySearch extends Component {
         });
     }
     handleClick() {
-        // this.setState({ city: "" });
         this.props.handleClick(this.state.city);
     }
     render() {
@@ -25,11 +25,12 @@ class CitySearch extends Component {
             <div className="CitySearch">
                 <input 
                     type = "text"
+                    className="CitySearch--input"
                     value = { this.state.city }
                     onChange = { this.handleChange }>
                 </input>
                 <button 
-                    className = "CitySearch-Submit"
+                    className = "CitySearch--button"
                     onClick = { this.handleClick }>
                     {text.searchAndAdd}
                 </button>
