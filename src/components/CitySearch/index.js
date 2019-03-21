@@ -43,6 +43,7 @@ class CitySearch extends Component {
                     onClick = { this.handleClick }>
                     {text.searchAndAdd}
                 </button>
+                <div className="CitySearch--error"></div>
             </div>
         );
     }
