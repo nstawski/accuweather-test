@@ -7,7 +7,7 @@ class CitySearch extends Component {
         super(props);
         this.state = {
             city: "",
-            error: ""
+            error: this.props.error
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -30,20 +30,22 @@ class CitySearch extends Component {
     render() {
         return ( 
             <div className="CitySearch">
-                <input 
-                    type = "text"
-                    className="CitySearch--input"
-                    value = { this.state.city }
-                    onChange = { this.handleChange }
-                    onKeyDown = { this.onPressEnter }
-                >
-                </input>
-                <button 
-                    className = "CitySearch--button"
-                    onClick = { this.handleClick }>
-                    {text.searchAndAdd}
-                </button>
-                <div className="CitySearch--error"></div>
+                <div className="CitySearch--block">
+                    <input 
+                        type = "text"
+                        className="CitySearch--input"
+                        value = { this.state.city }
+                        onChange = { this.handleChange }
+                        onKeyDown = { this.onPressEnter }
+                    >
+                    </input>
+                    <button 
+                        className = "CitySearch--button"
+                        onClick = { this.handleClick }>
+                        {text.searchAndAdd}
+                    </button>
+                </div>
+                <div className="CitySearch--error">{this.props.error}</div>
             </div>
         );
     }

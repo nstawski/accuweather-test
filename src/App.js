@@ -40,7 +40,8 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            favoriteCities: []
+            favoriteCities: [],
+            error: ""
         }
         this.parseResponseStatus = this.parseResponseStatus.bind(this);
         this.parseJson = this.parseJson.bind(this);
@@ -119,6 +120,7 @@ class App extends Component {
     };
     
     retrieveCityByTheName = (cityName) => {
+        this.setState({error: ""});
         if (cityName && cityName.length) {
             fetch(urlGenerators.getCity(cityName))
                 .then(this.parseResponseStatus)
@@ -127,7 +129,7 @@ class App extends Component {
                 .then(this.addFavoriteCity)
                 .then(this.getWeatherForCities)
                 .catch(error => {
-                    console.log(error);
+                    this.setState({error: text.couldNotFetchTheCity});
                 })
         }
     }
@@ -160,6 +162,7 @@ class App extends Component {
             <div className="App">
                 <CitySearch 
                     handleClick = { this.retrieveCityByTheName }
+                    error = { this.state.error }
                 />
                 <FavoriteCities
                     cities = { this.state.favoriteCities }

@@ -1,7 +1,8 @@
 {
     "searchAndAdd": "Search and add to favorites",
     "favoriteCities": "My favorite cities",
-    "couldNotFindTheCity": "Could not find the city",
+    "couldNotFindTheCity": "Could not find the city with this name.",
+    "couldNotFetchTheCity": "There was an error searching the city. Please try again.",
     "couldNotFetchCityData": "Could not fetch city data",
     "couldNotFetchCityWeather": "Could not fetch city weather"
 }
