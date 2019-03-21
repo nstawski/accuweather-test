@@ -22,7 +22,7 @@ class CitySearch extends Component {
         this.props.handleClick(this.state.city);
     }
     onPressEnter(event) {
-      if(event.keyCode == 13 && event.shiftKey == false) {
+      if(event.keyCode === 13 && event.shiftKey === false) {
         event.preventDefault();
         this.props.handleClick(this.state.city);
       }

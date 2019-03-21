@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import CitySearch from './';
 
-it('renders without crashing', () => {
+it('renders', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
+  ReactDOM.render(<CitySearch />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

@@ -110,12 +110,11 @@ class App extends Component {
     }
     
     addFavoriteCity = (cityInfo) => {
-        var favoriteCities = storage.addFavoriteCity(cityInfo);
-        
+        storage.addFavoriteCity(cityInfo);
     };
     
     delFavoriteCity = (cityKey) => {
-        var favoriteCities = storage.delFavoriteCity(cityKey);
+        storage.delFavoriteCity(cityKey);
         this.getWeatherForCities();
     };
     

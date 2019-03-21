@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import FavoriteCities from './';
 
-it('renders without crashing', () => {
+it('renders', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
+  ReactDOM.render(<FavoriteCities />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

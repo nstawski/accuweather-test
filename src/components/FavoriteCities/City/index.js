@@ -36,12 +36,20 @@ class City extends Component {
                 </div>
                 <div 
                     className="City--temperature">
-                    {this.state.city.temperature[this.state.unit]["Value"]} {this.state.city.temperature[this.state.unit]["Unit"]}
+                    {
+                        this.state.city 
+                        && Object.keys(this.state.city).indexOf('temperature') !== 'undefined' 
+                        ? this.state.city.temperature[this.state.unit]["Value"] : ""
+                    } {
+                        this.state.city 
+                        && Object.keys(this.state.city).indexOf('temperature') !== 'undefined' 
+                        ? this.state.city.temperature[this.state.unit]["Unit"] : ""
+                    }
                 </div>
                 <div 
                     className="City--icon">
                     {this.state.city && Object.keys(this.state.city).indexOf('icon') !== 'undefined' ? (
-                        <img src={`https://developer.accuweather.com/sites/default/files/${this.state.city.icon && this.state.city.icon.toString().length === 2 ? this.state.city.icon : "0" + this.state.city.icon}-s.png`}/>) : ""}
+                        <img alt={this.state.city.text} src={`https://developer.accuweather.com/sites/default/files/${this.state.city.icon && this.state.city.icon.toString().length === 2 ? this.state.city.icon : "0" + this.state.city.icon}-s.png`}/>) : ""}
                 </div>
                 <div 
                     className="City--delete" 
