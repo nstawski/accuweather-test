@@ -1,7 +1,13 @@
 .City {
-    width: 80%;
-    margin: 5px auto;
-    border: 1px solid red;
+    background-color: #efefef;
+    &:nth-child(even) {
+        background-color: #fcfcfc;
+    };
+//    &:hover {
+//        font-weight: bold;
+//        border: 1px dashed #ccc;
+//        box-sizing: border-box;
+//    };
     display: flex;
     align-items: center;
     
@@ -10,8 +16,26 @@
     }
     
     &--name {
-//        margin: auto;
     margin-left: 20px;
     width: 200px;
+    }
+    
+    &--icon {
+        display: inline-block;
+        margin-left: auto;
+    }
+    
+    &--delete {
+        display: inline-block;
+        width: 20px;
+        margin-right: 10px;
+    }
+}
+
+.Delete--button {
+    cursor: pointer;
+    &:hover {
+        color: blue;
+        font-weight: bold;
     }
 }

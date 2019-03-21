@@ -5,7 +5,7 @@ import FavoriteCities from './components/FavoriteCities';
 import text from './text.json';
 import './App.scss';
 
-const apikey = "";
+const apikey = "%ENTER_APIKEY_HERE%";
 const localStorageIdentifier = "accu-favoriteCities";
 
 const urlGenerators = {
@@ -115,21 +115,23 @@ class App extends Component {
     };
     
     delFavoriteCity = (cityKey) => {
-        console.log('before', favoriteCities);
         var favoriteCities = storage.delFavoriteCity(cityKey);
-        console.log('deleted', favoriteCities);
         this.getWeatherForCities();
     };
     
-    retrieveCityByTheName = (cityName) => fetch(urlGenerators.getCity(cityName))
-        .then(this.parseResponseStatus)
-        .then(this.parseJson)
-        .then(this.getCityKeyOrFail)
-        .then(this.addFavoriteCity)
-        .then(this.getWeatherForCities)
-        .catch(error => {
-            console.log(error);
-        })
+    retrieveCityByTheName = (cityName) => {
+        if (cityName && cityName.length) {
+            fetch(urlGenerators.getCity(cityName))
+                .then(this.parseResponseStatus)
+                .then(this.parseJson)
+                .then(this.getCityKeyOrFail)
+                .then(this.addFavoriteCity)
+                .then(this.getWeatherForCities)
+                .catch(error => {
+                    console.log(error);
+                })
+        }
+    }
     
     getWeatherForCities = () => {
         let favoriteCities = storage.getFavoriteCities();

@@ -11,6 +11,7 @@ class CitySearch extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.onPressEnter = this.onPressEnter.bind(this);
     }
     handleChange(event) {
         this.setState({
@@ -20,6 +21,12 @@ class CitySearch extends Component {
     handleClick() {
         this.props.handleClick(this.state.city);
     }
+    onPressEnter(event) {
+      if(event.keyCode == 13 && event.shiftKey == false) {
+        event.preventDefault();
+        this.props.handleClick(this.state.city);
+      }
+    }
     render() {
         return ( 
             <div className="CitySearch">
@@ -27,7 +34,9 @@ class CitySearch extends Component {
                     type = "text"
                     className="CitySearch--input"
                     value = { this.state.city }
-                    onChange = { this.handleChange }>
+                    onChange = { this.handleChange }
+                    onKeyDown = { this.onPressEnter }
+                >
                 </input>
                 <button 
                     className = "CitySearch--button"

@@ -29,18 +29,26 @@ class City extends Component {
     render() {
         return ( 
             <div className="City">
-                <div className="City--name">
+                <div 
+                    className="City--name">
                     {this.state.city && Object.keys(this.state.city).indexOf('name') !== 'undefined' ? this.state.city.name : "Loading..."}
                     {this.state.city && Object.keys(this.state.city).indexOf('state') !== 'undefined' ? `, ${this.state.city.state}` : ""}
                 </div>
-                <div className="City--temperature">
+                <div 
+                    className="City--temperature">
                     {this.state.city.temperature[this.state.unit]["Value"]} {this.state.city.temperature[this.state.unit]["Unit"]}
                 </div>
-                <div className="City--icon">
+                <div 
+                    className="City--icon">
                     {this.state.city && Object.keys(this.state.city).indexOf('icon') !== 'undefined' ? (
                         <img src={`https://developer.accuweather.com/sites/default/files/${this.state.city.icon && this.state.city.icon.toString().length === 2 ? this.state.city.icon : "0" + this.state.city.icon}-s.png`}/>) : ""}
                 </div>
-                <div className="City--delete" onClick={() => this.props.handleDelete(this.state.city.key)}>X</div>
+                <div 
+                    className="City--delete" 
+                    onClick={() => this.props.handleDelete(this.state.city.key)}
+                >
+                    <div className="Delete--button">x</div>
+                </div>
             </div>
         );
     }
