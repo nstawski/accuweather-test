@@ -5,7 +5,7 @@ import FavoriteCities from './components/FavoriteCities';
 import text from './text.json';
 import './App.scss';
 
-const apikey = '%ENTER_APIKEY_HERE%';
+const apikey = process.env.REACT_APP_ACCUWEATHER_TOKEN;
 const localStorageIdentifier = 'accu-favoriteCities';
 
 const urlGenerators = {
