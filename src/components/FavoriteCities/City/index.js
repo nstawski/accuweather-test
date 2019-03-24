@@ -1,65 +1,91 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './index.scss';
 
 class City extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            city: this.props.city,
-            unit: this.props.unit
-        }
+  constructor(props) {
+    super(props);
+    const { city, unit } = this.props;
+    this.state = {
+      city,
+      unit
+    };
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const { city, unit } = this.state;
+    return nextProps.city !== city || nextProps.unit !== unit;
+  }
+
+  componentDidUpdate(prevProps) {
+    const { city, unit } = this.props;
+    if (prevProps.city !== city) {
+      this.updateCity(city);
     }
-    
-    shouldComponentUpdate(nextProps){
-        return nextProps.city !== this.state.city || nextProps.unit !== this.state.unit;
+    if (prevProps.unit !== unit) {
+      this.updateUnit(unit);
     }
-    
-    componentDidUpdate(prevProps, nextProps){
-        if(prevProps.city !== this.props.city){
-            this.setState({
-                city: this.props.city
-            });
-        }
-        if(prevProps.unit !== this.props.unit){
-            this.setState({
-                unit: this.props.unit
-            });
-        }
-    }
-    render() {
-        return ( 
-            <div className="City">
-                <div 
-                    className="City--name">
-                    {this.state.city && Object.keys(this.state.city).indexOf('name') !== 'undefined' ? this.state.city.name : "Loading..."}
-                    {this.state.city && Object.keys(this.state.city).indexOf('state') !== 'undefined' ? `, ${this.state.city.state}` : ""}
-                </div>
-                <div 
-                    className="City--temperature">
-                    {
-                        this.state.city 
-                        && Object.keys(this.state.city).indexOf('temperature') !== 'undefined' 
-                        ? this.state.city.temperature[this.state.unit]["Value"] : ""
-                    } {
-                        this.state.city 
-                        && Object.keys(this.state.city).indexOf('temperature') !== 'undefined' 
-                        ? this.state.city.temperature[this.state.unit]["Unit"] : ""
-                    }
-                </div>
-                <div 
-                    className="City--icon">
-                    {this.state.city && Object.keys(this.state.city).indexOf('icon') !== 'undefined' ? (
-                        <img alt={this.state.city.text} src={`https://developer.accuweather.com/sites/default/files/${this.state.city.icon && this.state.city.icon.toString().length === 2 ? this.state.city.icon : "0" + this.state.city.icon}-s.png`}/>) : ""}
-                </div>
-                <div 
-                    className="City--delete" 
-                    onClick={() => this.props.handleDelete(this.state.city.key)}
-                >
-                    <div className="Delete--button">x</div>
-                </div>
-            </div>
-        );
-    }
+  }
+
+  updateCity = city => {
+    this.setState({
+      city
+    });
+  };
+
+  updateUnit = unit => {
+    this.setState({
+      unit
+    });
+  };
+
+  render() {
+    const { city, unit } = this.state;
+    const { handleDelete } = this.props;
+    return (
+      <div className="City">
+        <div className="City--name">
+          {city && Object.keys(city).indexOf('name') !== 'undefined' ? city.name : 'Loading...'}
+          {city && Object.keys(city).indexOf('state') !== 'undefined' ? `, ${city.state}` : ''}
+        </div>
+        <div className="City--temperature">
+          {city && Object.keys(city).indexOf('temperature') !== 'undefined'
+            ? city.temperature[unit].Value
+            : ''}
+          {city && Object.keys(city).indexOf('temperature') !== 'undefined'
+            ? city.temperature[unit].Unit
+            : ''}
+        </div>
+        <div className="City--icon">
+          {city && Object.keys(city).indexOf('icon') !== 'undefined' ? (
+            <img
+              alt={city.text}
+              src={`https://developer.accuweather.com/sites/default/files/${
+                city.icon && city.icon.toString().length === 2 ? city.icon : `0${city.icon}`
+              }-s.png`}
+            />
+          ) : (
+            ''
+          )}
+        </div>
+        <div
+          role="button"
+          tabIndex={0}
+          className="City--delete"
+          onClick={() => handleDelete(city.key)}
+          onKeyPress={() => handleDelete(city.key)}
+        >
+          <div className="Delete--button">x</div>
+        </div>
+      </div>
+    );
+  }
 }
+
+City.propTypes = {
+  city: PropTypes.shape({}).isRequired,
+  unit: PropTypes.string.isRequired,
+  handleDelete: PropTypes.func.isRequired
+};
 
 export default City;
