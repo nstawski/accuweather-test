@@ -52,28 +52,28 @@ class App extends Component {
         this.getWeatherForCities = this.getWeatherForCities.bind(this);
         this.retrieveCityByTheName = this.retrieveCityByTheName.bind(this);
     }
-    
-    parseResponseStatus = (response) => {
+
+    parseResponseStatus(response) {
         if (response.status >= 200 && response.status < 300) {
             return Promise.resolve(response)
         } else {
             return Promise.reject(new Error(response.statusText))
         }
     }
-    
-    parseJson = (response) => {
+
+    parseJson(response) {
         return response.json()
     }
-    
-    getCityKeyOrFail = (data) => {
+
+    getCityKeyOrFail(data) {
         if (data.length && Object.keys(data[0]).indexOf("Key") !== 'undefined') {
             return Promise.resolve(data[0]["Key"])
         } else {
             return Promise.reject(new Error(text.couldNotFindTheCity))
         }
     }
-    
-    getCityInfoOrFail = (data) => {
+
+    getCityInfoOrFail(data) {
         let cityInfo = {};
         if (typeof data !== 'undefined') {
             //LocalizedName AdministrativeArea (ID)
@@ -91,9 +91,9 @@ class App extends Component {
             return Promise.reject(new Error(text.couldNotFetchCityData))
         }
     }
-    
-    getCityWeatherOrFail = (data, cityInfo) => {
-        let cityWeather = {...cityInfo};
+
+    getCityWeatherOrFail(data, cityInfo) {
+        let cityWeather = {...cityInfo };
         if (data.length) {
             if (Object.keys(data[0]).indexOf("WeatherIcon") !== 'undefined') {
                 cityWeather.icon = data[0]["WeatherIcon"];
@@ -109,18 +109,18 @@ class App extends Component {
             return Promise.reject(new Error(text.couldNotFetchCityWeather))
         }
     }
-    
+
     addFavoriteCity = (cityInfo) => {
         storage.addFavoriteCity(cityInfo);
     };
-    
+
     delFavoriteCity = (cityKey) => {
         storage.delFavoriteCity(cityKey);
         this.getWeatherForCities();
     };
-    
+
     retrieveCityByTheName = (cityName) => {
-        this.setState({error: ""});
+        this.setState({ error: "" });
         if (cityName && cityName.length) {
             fetch(urlGenerators.getCity(cityName))
                 .then(this.parseResponseStatus)
@@ -129,45 +129,44 @@ class App extends Component {
                 .then(this.addFavoriteCity)
                 .then(this.getWeatherForCities)
                 .catch(error => {
-                    this.setState({error: text.couldNotFetchTheCity});
+                    this.setState({ error: text.couldNotFetchTheCity });
                 })
         }
     }
-    
+
     getWeatherForCities = () => {
         let favoriteCities = storage.getFavoriteCities();
         let multiCityInfo = favoriteCities.map((cityKey) => {
             return fetch(urlGenerators.getCityByKey(cityKey))
-            .then(this.parseResponseStatus)
-            .then(this.parseJson)
-            .then(this.getCityInfoOrFail)
-            .then((cityInfo) => {
-                return fetch(urlGenerators.getWeatherByKey(cityInfo.key))
                 .then(this.parseResponseStatus)
                 .then(this.parseJson)
-                .then((data) => this.getCityWeatherOrFail(data, cityInfo))
-            })
+                .then(this.getCityInfoOrFail)
+                .then((cityInfo) => {
+                    return fetch(urlGenerators.getWeatherByKey(cityInfo.key))
+                        .then(this.parseResponseStatus)
+                        .then(this.parseJson)
+                        .then((data) => this.getCityWeatherOrFail(data, cityInfo))
+                })
         })
         return Promise.all(multiCityInfo).then((allCities) => {
             this.setState({ "favoriteCities": allCities })
         })
     }
-    
+
     componentDidMount() {
         this.getWeatherForCities();
     }
-    
+
     render() {
-        return (
-            <div className="App">
-                <CitySearch 
-                    handleClick = { this.retrieveCityByTheName }
-                    error = { this.state.error }
-                />
-                <FavoriteCities
-                    cities = { this.state.favoriteCities }
-                    handleDelete = { this.delFavoriteCity }
-                />
+        return ( <div className = "App">
+            <CitySearch 
+                handleClick = { this.retrieveCityByTheName }
+                error = { this.state.error }
+            />
+            <FavoriteCities 
+                cities = { this.state.favoriteCities }
+                handleDelete = { this.delFavoriteCity }
+            />
             </div>
         );
     }
